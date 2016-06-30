@@ -22,4 +22,4 @@ groupmod -g $GID -o dev > /dev/null 2>&1
 usermod -u $UID -o dev > /dev/null 2>&1
 chown -R $USERNAME:$USERNAME ~$USERNAME/ > /dev/null 2>&1
 
-sudo -u $USERNAME $@
+sudo -E -u $USERNAME $@
