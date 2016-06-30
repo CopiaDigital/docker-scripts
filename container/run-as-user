@@ -1,0 +1,25 @@
+#!/bin/sh
+
+##############################################################################
+# Assume the UID and GID of the source folder (/src) by default, unless env
+# varibles say otherwise
+
+# USER_SRC_DIR: Directory to take UID and GID from if not set explicitly
+# USER_USERNAME: Username to run stuff as
+# USER_UID: Give username this UID
+# USER_GID: Give username this GID
+##############################################################################
+
+SRC_DIR="${USER_SRC_DIR:-/src}"
+
+USERNAME="${USER_USERNAME:-dev}"
+UID="${USER_UID:-$(stat -c '%u' $SRC_DIR)}"
+GID="${USER_GID:-$(stat -c '%g' $SRC_DIR)}"
+
+echo "Giving user $USERNAME id $UID:$GID"
+
+groupmod -g $GID -o dev > /dev/null 2>&1
+usermod -u $UID -o dev > /dev/null 2>&1
+chown -R $USERNAME:$USERNAME ~$USERNAME/ > /dev/null 2>&1
+
+sudo -u $USERNAME $@
