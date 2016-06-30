@@ -16,10 +16,9 @@ USERNAME="${USER_USERNAME:-dev}"
 UID="${USER_UID:-$(stat -c '%u' $SRC_DIR)}"
 GID="${USER_GID:-$(stat -c '%g' $SRC_DIR)}"
 
-echo "Giving user $USERNAME id $UID:$GID"
-
 groupmod -g $GID -o $USERNAME > /dev/null 2>&1
 usermod -u $UID -o $USERNAME > /dev/null 2>&1
 chown -R $USERNAME:$USERNAME ~$USERNAME/ > /dev/null 2>&1
 
+echo "Running as user $USERNAME ($UID:$GID)"
 sudo -E -u $USERNAME $@
