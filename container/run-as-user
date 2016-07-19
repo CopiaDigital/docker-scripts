@@ -2,7 +2,7 @@
 
 ##############################################################################
 # Assume the UID and GID of the source folder (/src) by default, unless env
-# varibles say otherwise
+# variables say otherwise
 
 # USER_SRC_DIR: Directory to take UID and GID from if not set explicitly
 # USER_USERNAME: Username to run stuff as
@@ -16,9 +16,9 @@ USERNAME="${USER_USERNAME:-dev}"
 UID="${USER_UID:-$(stat -c '%u' $SRC_DIR)}"
 GID="${USER_GID:-$(stat -c '%g' $SRC_DIR)}"
 
-groupmod -g $GID -o $USERNAME > /dev/null 2>&1
 usermod -u $UID -o $USERNAME > /dev/null 2>&1
+groupmod -g $GID -o $USERNAME > /dev/null 2>&1
 chown -R $USERNAME:$USERNAME ~$USERNAME/ > /dev/null 2>&1
 
-echo "Running as user $USERNAME ($UID:$GID) ($(stat -c '%u' $SRC_DIR):$(stat -c '%g' $SRC_DIR))"
+echo "Running as user $USERNAME ($UID:$GID) ($SRC_DIR=$(stat -c '%u' $SRC_DIR):$(stat -c '%g' $SRC_DIR))"
 sudo -E -u $USERNAME $@
