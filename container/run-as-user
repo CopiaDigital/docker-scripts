@@ -21,4 +21,4 @@ groupmod -g $GID -o $USERNAME > /dev/null 2>&1
 chown -R $USERNAME:$USERNAME ~$USERNAME/ > /dev/null 2>&1
 
 echo "Running as user $USERNAME ($UID:$GID) ($SRC_DIR=$(stat -c '%u' $SRC_DIR):$(stat -c '%g' $SRC_DIR))"
-sudo -E -u $USERNAME $@
+sudo -u $USERNAME $@
